@@ -1,0 +1,329 @@
+%\documentclass{article}
+\documentclass[manuscript]{acmart}
+%\documentclass[format=acmsmall, screen=true, review=false]{acmart}
+%\documentclass{acmart}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+
+\newcommand{\lb}[1]{\textcolor{orange}{LB: #1}}
+\newcommand{\dname}{DHRD}
+\newcommand{\ie}{i.e.,~}
+\newcommand{\eg}{e.g.,~}
+\newcommand{\datalink}{https://github.com/deliveryhero/dh-reco-dataset}
+
+\graphicspath{{figs/}}
+
+
+\begin{document}
+
+
+\title{Delivery Hero Recommendation Dataset: A Novel Dataset for Benchmarking Recommendation Algorithms}
+
+\author{Yernat Assylbekov$^*$, Raghav Bali$^*$, Luke Bovard$^*$, Christian Klaue$^*$}
+\affiliation{
+\institution{Delivery Hero}
+\city{Berlin}
+\country{Germany}}
+\email{yernat.assylbekov@deliveryhero.com, raghav.bali@deliveryhero.com,
+luke.bovard@deliveryhero.com, christian.klaue@deliveryhero.com}
+\def\thefootnote{*}\footnotetext{These authors contributed equally to this work}\def\thefootnote{\arabic{footnote}}
+%\author{Yernat Assylbekov}
+%\affiliation{%
+%\institution{Delivery Hero}
+%\city{Berlin}
+%\country{Germany}}
+%\email{yernat.assylbekov@deliveryhero.com}
+%\author{Raghav Bali}
+%\affiliation{%
+%\institution{Delivery Hero}
+%\city{Berlin}
+%\country{Germany}}
+%\email{raghav.bali@deliveryhero.com}
+%\author{Luke Bovard}
+%\orcid{0000-0003-3555-062X}
+%\affiliation{%
+%\institution{Delivery Hero}
+%\city{Berlin}
+%\country{Germany}}
+%\email{luke.bovard@deliveryhero.com}
+%\author{Christian Klaue}
+%\affiliation{%
+%\institution{Delivery Hero}
+%\city{Berlin}
+%\country{Germany}}
+%\email{christian.klaue@deliveryhero.com}
+
+\begin{abstract}
+In this paper we propose Delivery Hero Recommendation
+Dataset (\dname), a novel real-world dataset for researchers.
+\dname\ comprises over a million food delivery orders from three distinct
+cities, encompassing thousands of vendors and an extensive range of
+dishes, serving a combined customer base of over a million individuals.
+We discuss the challenges associated with such real-world datasets. By
+releasing \dname, researchers are empowered with a valuable resource for
+building and evaluating recommender systems, paving the way for
+advancements in this domain.
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:intro}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+With the importance of machine learning in industrial applications,
+coupled with the correlated increase of research publications and the
+success of deep learning techniques in fields like NLP and computer
+vision, one would expect that revolutionary progress resulting from these
+publications would be reflected in the field of Recommendation Systems
+(RS). While latest state-of-the-art approaches claim to outperform
+traditional methods, further investigations reveal that this is not the
+case, and fine-tuned simple ideas still produce comparable
+results \cite{muller18a}.  
+
+The reasons for these findings point to a number of issues including
+poor reproducibility, low sample size, specific preprocessing techniques which
+do not generalise. Differences in training, validation
+and test split as well as removal of samples can be observed in papers
+using the popular MovieLens dataset (\eg  \cite{sun2019} vs
+ \cite{ludewig2018}). Enabling researchers and practitioners to
+easily compare and reproduce results across works by providing them with
+good quality evaluation datasets is one step in the correct direction to
+enhance research.
+
+A dataset which is used to evaluate different approaches should have the
+following attributes:
+\begin{enumerate}[topsep=0pt]
+\item \textbf{Accessibility}: The dataset should be open-sourced, easily
+accessible and well documented.
+\item \textbf{Relevance}: The dataset should contain relevant features that are
+important for the analysis and modelling task at hand.
+\item \textbf{Quality}: The data should be of high quality, with minimal missing
+values, errors, or inconsistencies.
+\item \textbf{Reproducibility}: The training and test data should be clearly
+defined to ensure comparisons. 
+\item \textbf{Representativeness}: While maintaining relevance and quality, the data 
+should also reflect challenges faced in real-world settings (eg: inconsistent labels, 
+changing identifiers, size/quantity information mixed with product names, etc.)
+\item \textbf{Multimodality}: The dataset should consist of different data types
+like text or images to maximise the horizon of potential applicable
+approaches.
+\item \textbf{Volume}: The dataset should be large enough to provide a
+representative sample of the population or phenomena being studied.
+\end{enumerate}
+In order to enable researchers to correctly evaluate and compare
+approaches, it is fundamental to provide them with real world data
+samples. Given those samples and resulting research success, the outcome
+can then be used in the industry resulting in a fruitful cooperation.
+Therefore, it is the responsibility of companies to produce this
+real-world data and make it accessible to researchers.  For a large
+proportion of the industries there exist datasets which are
+widely used and considered representative. A few examples of such areas
+include music (\eg Spotfiy \cite{spotify_dataset},
+lastfm \cite{Bertin-Mahieux2011}), movies (\eg
+MovieLens \cite{harper2015movielens}, IMDb\cite{imdb_dataset},
+Netflix \cite{netflix}) and retail (\eg Amazon\cite{ni2019},
+Tmall \cite{tmall_dataset}). 
+
+In contrast, there are few datasets that relate to food recommendation
+and this domain offers many interesting challenges that have been
+under-represented in literature and, to the best of our knowledge, none
+of the leading food delivery companies across the world have officially
+released datasets for research purposes. There are datasets available
+that have a subset of food related data, but they either are a very small
+percentage of the whole dataset \cite{ecommerce} or represent only a
+specific geographical area like US \cite{yelp} or have been
+scraped \cite{zomato,grubhub} with unspecified usage and license agreements. 
+
+Food recommendation has a variety of topics that make it a fruitful field
+of research and investigation, including, but not limited to delivery
+time, quality and fee, availability, nutritional breakdown, cuisine type,
+group orders, dietary considerations, as well as cultural, social and
+environmental factors.  Recommendations within these parameters are also
+complex since dishes can be very different depending on the restaurants
+or a customer undergoes a dietary change and low-quality recommendations
+have long-term consequences.  Additionally, food items are often time
+dependent, sometimes even ordered together and therefore influence each
+other.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dataset Description}
+\label{sec:dataset}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+To address the concerns raised in the previous section, we have
+constructed a dataset from Delivery Hero’s largest brands such as
+\href{https://www.foodpanda.com/about-foodpanda/}{foodpanda} and
+\href{https://www.foodora.com/about/}{foodora}.
+Delivery Hero brands process more than 5 million orders daily
+with operations in more than 400 cities \cite{foodpanda_info}. This
+dataset, which encompasses millions of real world orders, will help
+researchers better evaluate recommendation algorithms in the food
+recommendation sector. 
+
+The data we are releasing here\footnote{\datalink} covers a time period
+of three months with data consisting of 4.5 million orders processed on
+Delivery Hero platforms for three cities: Singapore, Taipei, and
+Stockholm. The data consists of three parts for each location: orders,
+products, and vendor information.  Orders data contains information about
+orders being placed, product data contains data about the products
+offered on a vendor's menu, and vendor data contains metadata about the
+vendor. Table~\ref{table:schema} contains an overview of the columns in
+the dataset and table~\ref{table:stats} presents summary statistics of
+the dataset.  To ensure privacy and GDPR compliance, we have removed all
+personally identifiable information and the data has been anonymized
+through hashing with salt. Additionally, this data may not reflect the
+present availability of products and vendors in those cities. The
+normalised prices listed are based on those that the user would see and
+contain no proprietary discount, incentives, or commissions related
+information as those are beyond the scope of this data release.  Due to
+privacy and business restrictions, we are not able to provide user
+demographic or vendor popularity information in this data release. 
+
+We have used a geohash \cite{geohash} to approximate user/vendor
+locations. Using vendors that are within the same geohash / neighbouring
+geohashes is an effective way to determine all available vendors for a
+given user without real-time data.  Internally, recommendation models use
+similar approximations and we have found it to give good results.
+
+In contrast to the majority of open source datasets that are
+pre-processed, clean, and carefully curated to eliminate real-world
+challenges, this dataset emulates real-world settings. Our dataset comprises
+missing values, inconsistent IDs, and other typical issues encountered in
+real-world systems. The main motivation behind keeping the dataset as raw
+as possible were to enable the community to work towards novel
+pre-processing techniques, experience real-world issues, develop novel
+ranking and recommendation methods and also ensure that we keep any known
+biases while releasing such a dataset to the minimum. We list below a few
+potential challenges that we encourage researchers to explore. 
+
+\begin{enumerate}
+\item \textbf{Non-Trivial Cuisines}: Although \eg Singapore offers an
+extensive variety of 78 cuisines, a detailed examination of these
+cuisines indicates a very interesting scenario. For instance, rice,
+noodles, tea, and sandwiches are some of the top primary cuisines listed
+in the dataset. Even though these are marked as primary cuisines,
+intuitively these do not correspond to typical understanding of cuisines.
+Another typical case is similar cuisines which cannot be
+directly treated as one. For example, bubble tea, coffee, and beverages
+could be grouped together as a single primary cuisines (say beverages),
+whereas identifying a common category for sandwiches and burgers could
+prove challenging. 
+
+\item \textbf{Product Names}: Product/Dish/Beverage names play an important role
+in understanding user preferences and tastes. Vendors also benefit from
+understanding what products are in demand and which ones aren’t to manage
+inventories, incentives and more. Vendors also use creative names,
+marketing labels, latest trending terms, and add quantity/size qualifiers
+to their offerings to make them more attractive to customers. This
+creates unique challenges to utilise this information for understanding
+ordering patterns, preferences and  presents an unique opportunity for
+developing pre-processing techniques using NLP and domain understanding.
+
+\item \textbf{Unordered Products}: Another unique challenge is the difference
+between the available list of products in the system versus products
+being ordered. For instance, in Taipei there are details for 810K
+unique products out of which only 327K have associated orders (a mere
+40\% of the total). This situation frequently occurs due to
+a number of factors involving changes to product names (spelling
+corrections, marketing labels, etc.), portion/quantity changes, price
+modification, seasonal menu changes and more. This requires meticulous
+exploration of the dataset to come up with novel preprocessing techniques
+for different downstream tasks (not limited to recommendations alone).
+Multiple languages add an additional layer of complexity to such methods.
+\end{enumerate}
+
+
+
+\begin{table}
+\begin{tabular}{|p{0.15\linewidth} | p{0.55\linewidth}| p{0.35\linewidth}}
+Column & Description  & Dataset \\ \hline
+customer\_id & uniquely hased customer\_id & Orders\\
+order\_time & time order was placed & Orders \\
+day\_of\_week & day of the week the order was placed, with 0 = Sunday,
+ & Orders \\
+order\_day & day from the start of the dataset when the order was placed
+& Orders \\
+geohash & hashed geographic location of where the order was placed given
+to 5 digits of precision & Orders, Vendors\\
+order\_id &  unique order\_id   & Orders\\
+vendor\_id & unique hashed vendor\_id of where the order was placed &
+Orders, Vendors, Product \\
+chain\_id & unique hashed identifier of the chain that a vendor belongs
+to. Not all vendors belong to chain and if null the vendor is not part of
+a chain & Vendor\\
+geohash & hashed geographic location of where the order was placed given
+to 5 digits of precision & Orders, Vendor \\
+primary\_cuisine & vendor specified cuisine & Vendor \\
+product\_id & unique hashed product\_id of the product ordered & Orders,
+Product\\
+name & the product name as displayed on the menu  & Product\\
+unit\_price & the normalised unit price of the item. & Product
+\end{tabular}
+\caption{Schema of the three different dataset tables.}
+\label{table:schema}
+\end{table}
+
+
+\begin{table}
+    \begin{tabular}{|cccccc|}
+    City &  \# of Orders & \# of Customers &  \# of Vendors & \# of Products
+    & \# of Products Ordered\\ \hline
+    Singapore & 1.99M & 512K  &7411 & 1.06M & 256K \\
+    Stockholm & 400K & 122K & 1148  &111K & 41K\\
+    Taipei & 2.0M & 741K & 9506 & 810K & 327K
+    \end{tabular}
+    \caption{Summary statistics of the dataset for each of the three cities}
+    \label{table:stats}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+\label{sec:conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This paper presents the \dname, a novel online food delivery dataset,
+which serves to expand and enhance the existing collection of public
+datasets for recommendation tasks across diverse domains. The dataset
+offers authentic information with minimal preprocessing to preserve
+real-world characteristics and inspire innovative approaches for
+preprocessing and recommendation techniques. It is conveniently available
+in a user-friendly format\footnote{\datalink}, accompanied by
+comprehensive details and descriptions outlined in this paper.  While we
+anticipate that this dataset will introduce unique challenges to the
+research community, our objective is to continually enhance and enrich it
+through subsequent versions by incorporating additional features,
+modalities, and volume.
+
+\section{Speaker Bio and Acknowledgements}
+\label{sec:speaker}
+The authors of this paper are a team of experienced Data Scientists who
+have been actively engaged in data science and related activities at
+Delivery Hero. Their primary focus has been on enhancing customer
+recommendations across diverse markets. Yernat and Luke, possessing
+doctorate degrees in Mathematics and AstroPhysics respectively,
+successfully completed their doctoral studies at the University of
+Washington and Goethe University Frankfurt. Raghav Bali, holding a
+Masters from IIIT-Bangalore, brings to the team over a decade of valuable
+experience gained from working with major technology companies. Christian
+Klaue, equipped with a Masters from the University of St. Thomas, boasts
+a versatile professional background spanning various domains. The authors
+extend their heartfelt gratitude to Ankur Kaul, Koray Kayir, and the
+entire squad for their unwavering support and invaluable inputs
+throughout this work. Their support and guidance have been instrumental
+in shaping the outcomes of this study.
+%The authors of this paper have been working at Delivery Hero as Data Scientists
+%to develop models for improving recommendations for our customers across markets.
+%Yernat and Luke completed their PhDs from University of Washington and Goethe University Frankfurt in Mathematics and AstroPhysics respectively.
+%Raghav Bali has a Masters from IIIT-Bangalore and has over 10 years of experience working with major technology companies.
+%Christian Klaue also has a Masters from University of St. Thomas and has worked in different domains throughout. The authors are working towards building
+%tailored solutions to improve overall user experience and business metrics. The authors would also like to thank Ankur Kaul, Koray Kayir and rest of the squad 
+%for their support and inputs throughout.
+
+\bibliographystyle{plain} 
+\bibliography{refs} % Entries are in the refs.bib file
+\end{document}
