@@ -8,7 +8,7 @@
 by
 [Yernat Assylbekov](mailto:yernat.assylbekov@deliveryhero.com),
 [Raghav Bali](mailto:raghav.bali@deliveryhero.com),
-[Luke Bobard](mailto:luke.bovard@deliveryhero.com),
+[Luke Bovard](mailto:luke.bovard@deliveryhero.com),
 [Christian Klaue](mailto:christian.klaue@deliveryhero.com)
 
 [[`Paper`](https://arxiv.org/)] [[`Blog`](https://tech.deliveryhero.com/)] 
