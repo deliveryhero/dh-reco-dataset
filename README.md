@@ -11,7 +11,7 @@ by
 [Luke Bovard](mailto:luke.bovard@deliveryhero.com),
 [Christian Klaue](mailto:christian.klaue@deliveryhero.com)
 
-[[`Paper`](https://arxiv.org/)] [[`Blog`](https://tech.deliveryhero.com/)] 
+[[`Paper`](https://dl.acm.org/doi/10.1145/3604915.3610242)] [[`Blog`](https://tech.deliveryhero.com/)] 
 
 
 Code repository for the Delivery Hero Recommendation Dataset (DHRD), which provides a diverse real-world dataset
@@ -34,11 +34,20 @@ The DHRD dataset is released under the MIT license. See [LICENSE](https://openso
 If you find this dataset useful, please consider giving a star :star: and citation :t-rex::
 
 ```
-@misc{DHRD2023TODO,
-  title={Delivery Hero Recommendation Dataset: A Novel Dataset for Benchmarking
-Recommendation Algorithms},
-  author={Yernat Assylbekov, Raghav Bali, Luke Bovard, Christian Klaue},
-  journal={arXiv:TODO},
-  year={2023}
+@inproceedings{10.1145/3604915.3610242,
+author = {Assylbekov, Yernat and Bali, Raghav and Bovard, Luke and Klaue, Christian},
+title = {Delivery Hero Recommendation Dataset: A Novel Dataset for Benchmarking Recommendation Algorithms},
+year = {2023},
+isbn = {9798400702419},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3604915.3610242},
+doi = {10.1145/3604915.3610242},
+abstract = {In this paper we propose Delivery Hero Recommendation Dataset (DHRD), a novel real-world dataset for researchers. DHRD comprises over a million food delivery orders from three distinct cities, encompassing thousands of vendors and an extensive range of dishes, serving a combined customer base of over a million individuals. We discuss the challenges associated with such real-world datasets. By releasing DHRD, researchers are empowered with a valuable resource for building and evaluating recommender systems, paving the way for advancements in this domain.},
+booktitle = {Proceedings of the 17th ACM Conference on Recommender Systems},
+pages = {1042–1044},
+numpages = {3},
+location = {Singapore, Singapore},
+series = {RecSys '23}
 }
 ```
