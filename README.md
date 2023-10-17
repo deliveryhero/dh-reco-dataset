@@ -11,7 +11,7 @@ by
 [Luke Bovard](mailto:luke.bovard@deliveryhero.com),
 [Christian Klaue](mailto:christian.klaue@deliveryhero.com)
 
-[[`Paper`](https://dl.acm.org/doi/10.1145/3604915.3610242)] [[`Blog`]([https://tech.deliveryhero.com/](https://tech.deliveryhero.com/delivery-heros-double-feature-at-acm-recsys-2023/))] 
+[[`Paper`](https://dl.acm.org/doi/10.1145/3604915.3610242)] [[`Blog`](https://tech.deliveryhero.com/delivery-heros-double-feature-at-acm-recsys-2023/)] 
 
 
 Code repository for the Delivery Hero Recommendation Dataset (DHRD), which provides a diverse real-world dataset
